@@ -16,10 +16,7 @@ export async function updateSessions(
   query: FilterQuery<SessionDocument>,
   update: UpdateQuery<SessionDocument>
 ) {
-  // console.log(query);
-
   const aa = await SessionModel.updateOne(query, update);
-  // console.log(aa);
   return aa;
 }
 

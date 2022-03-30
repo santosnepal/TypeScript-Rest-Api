@@ -10,26 +10,18 @@ const deserializeUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  // console.log('called');
-
   const accessToken = get(req, "headers.authorization", "").replace(
     /^Bearer\s/,
     ""
   );
-  // console.log(accessToken);
 
   const refreshToken = get(req, "headers.x-refresh");
 
   if (!accessToken) {
-    //   console.log('here');
     return next();
   }
-
   const { decoded, expired } = verifyJwt(accessToken); //, "accessTokenPublicKey");
-  //   console.log('decod',decoded);
   if (decoded) {
-    // console.log(decoded);
-
     res.locals.user = decoded;
     return next();
   }
