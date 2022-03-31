@@ -4,6 +4,18 @@ import {
   deleteSessionHandler,
   getUserSessionsHandler,
 } from "./controller/session.controller";
+import {
+  createProductHandler,
+  getProductHandler,
+  updateProductHandler,
+  deleteProductHandler,
+} from "./controller/product.controller";
+import {
+  createProductSchema,
+  deleteProductSchema,
+  getProductSchema,
+  updateProductSchema,
+} from "./schema/product.schema";
 import { createUserHandler } from "./controller/user.controller";
 import deserializeUser from "./midlleware/deserializeUser";
 import requireUser from "./midlleware/requireUser";
@@ -31,5 +43,30 @@ export default function (app: Express) {
     deserializeUser,
     requireUser,
     deleteSessionHandler
+  );
+  app.post(
+    "/api/products",
+    [deserializeUser, requireUser, validateRequest(createProductSchema)],
+    createProductHandler
+  );
+
+  app.put(
+    "/api/products/:productId",
+    deserializeUser,
+    requireUser,
+    validateRequest(updateProductSchema),
+    updateProductHandler
+  );
+
+  app.get(
+    "/api/products/:productId",
+    validateRequest(getProductSchema),
+    getProductHandler
+  );
+
+  app.delete(
+    "/api/products/:productId",
+    [deserializeUser, requireUser, validateRequest(deleteProductSchema)],
+    deleteProductHandler
   );
 }

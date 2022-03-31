@@ -21,6 +21,7 @@ const deserializeUser = async (
     return next();
   }
   const { decoded, expired } = verifyJwt(accessToken); //, "accessTokenPublicKey");
+
   if (decoded) {
     res.locals.user = decoded;
     return next();
@@ -28,6 +29,7 @@ const deserializeUser = async (
 
   if (expired && refreshToken) {
     const newAccessToken = await reIssueAccessToken({ refreshToken });
+
     if (newAccessToken) {
       res.setHeader("x-access-token", newAccessToken);
     }

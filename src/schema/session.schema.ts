@@ -1,7 +1,12 @@
-import { object, string } from "yup";
+import { object, string } from "zod";
+
 export const createSessionSchema = object({
   body: object({
-    email: string().required("Email Is Required"),
-    password: string().required("Password Is Requred"),
+    email: string({
+      required_error: "Email is required",
+    }),
+    password: string({
+      required_error: "Password is required",
+    }),
   }),
 });
